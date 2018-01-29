@@ -1,14 +1,18 @@
 /*double and more dimension arrays*/
-
-    public static void bubbleSort2(int[] nums){
+/*sorting by field #2*/
+    public static void bubbleSort2(int[][] nums){
         int t = 0;
         for(int a = 1; a < nums.length; a++)
             for(int b = nums.length - 1; b >= a; b--) {
-                if(nums[b - 1] > nums[b]) { // ≈сли требуемый пор€док следовани€ не соблюдаетс€
+                if(nums[b - 1][1] > nums[b][1]) { // ≈сли требуемый пор€док следовани€ не соблюдаетс€
                     // элементы мен€ютс€ местами
-                    t = nums[b - 1];
-                    nums[b - 1] = nums[b];
-                    nums[b] = t;
+                    t = nums[b - 1][0];
+                    nums[b - 1][0] = nums[b][0];
+                    nums[b][0] = t;
+					
+                    t = nums[b - 1][1];
+                    nums[b - 1][1] = nums[b][1];
+                    nums[b][1] = t;
                 }
             }
     }
