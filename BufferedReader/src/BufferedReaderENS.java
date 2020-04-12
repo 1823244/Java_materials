@@ -14,11 +14,11 @@ public class BufferedReaderENS {
 
     public static void main(String[] args) throws Exception {
 
-        // Обычное создание ридера
-
         System.out.println("input array dimension");
 
+        // Обычное создание ридера
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
         dim = Integer.parseInt(reader.readLine());
 
         stringArray = new String[dim];
@@ -29,6 +29,7 @@ public class BufferedReaderENS {
 
         //testReader1();
 
+        // Вывод содержимого коллекций
         showResult();
     }
 
@@ -39,9 +40,6 @@ public class BufferedReaderENS {
 
     // "Классическое" создание и использование ридера (с переменной)
     public static void testReader0() throws Exception {
-
-        // Обычное создание ридера
-        //BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         // Если в коде часто создаем объект ридера, то можно отрефакторить
         BufferedReader reader;
@@ -56,10 +54,13 @@ public class BufferedReaderENS {
         }
     }
 
-    // Использование ридера без выделения переменной, см. вызов BFR()
+    /* Использование ридера без выделения переменной, см. вызов BFR()
+       Так можно делать, если в коде создается мало таких объектов,
+       иначе накладные расходы на создание будут замедлять код.*/
     public static void testReader1() throws Exception {
 
         System.out.println("input "+dim+" integer numbers");
+
         for (int i = 0; i < dim; i++) {
             stringArray[i] = BFR().readLine();
             intArray[i] = Integer.parseInt(stringArray[i]);
