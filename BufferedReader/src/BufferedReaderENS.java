@@ -85,6 +85,19 @@ public class BufferedReaderENS {
         }
 
     }
+	
+	/**
+		ввод строк с клавиатуры в цикле. строка exit прерывает выполнение
+	*/
+	public static void kbdInput() {
+		
+        String key;
+		ArrayList<String> stringListLocal = new ArrayList<String>();
+		int i = 0;
+        while (!(key = reader.readLine()).equals("exit")) {
+			stringListLocal.add(i, key);
+            i++;
+        }		
 
 }
 
