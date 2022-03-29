@@ -10,7 +10,7 @@ import java.io.*;
 public class Solution {
     public static void main(String[] args) throws IOException {
 
-        BufferedReader reader = BFR();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String fileName = reader.readLine();
         reader.close();
         reader = null;
@@ -37,12 +37,4 @@ public class Solution {
 
     }
 
-
-
-
-
-    // Рефакторинг. Создание ридера выделено в отдельный метод
-    static BufferedReader BFR() {
-        return new BufferedReader(new InputStreamReader(System.in));
-    }
 }
