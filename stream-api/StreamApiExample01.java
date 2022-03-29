@@ -6,6 +6,12 @@
  * Метод printGroupsOriginalAlgo() - вариант без stream api
  * Метод printGroupsStreamApi() - демонстрация stream api
  * Метод printGroupsStreamApiPipeline() - пошаговое представление алгоритма stream api
+ *
+ * Алгоритм:
+ *   Вывод в консоль групп, отсортированных по количеству людей в них
+ *
+ * Подробности - в комментариях внутри методов. Они одинаковые в обоих методах
+ * (насколько это возможно), чтобы понимать связь операций классики и стримов.
  */
 
 import java.util.*;
@@ -14,8 +20,12 @@ import java.util.stream.Stream;
 import static java.util.Comparator.comparing;
 
 public class StreamApiExample01 {
+
     public static void main(String[] args) {
+        // Создаем коллекцию, которую будем обрабатывать через стрим
         ArrayList<People> people = new ArrayList<>();
+
+        // Создаем вспомогательные данные
         Group pens = new Group();
         pens.setName("pension");
         pens.setSize(0);
@@ -26,6 +36,7 @@ public class StreamApiExample01 {
         stud.setName("student");
         stud.setSize(0);
 
+        // Создаем вспомогательные данные
         People p1 = new People();
         p1.setAge(66);
         p1.setGroup(pens);
@@ -59,6 +70,8 @@ public class StreamApiExample01 {
         people.add(p4);
         stud.setSize(stud.getSize()+1);
 
+        // Запускаем тесты
+
         System.out.println("--- classic algo");
 
         printGroupsOriginalAlgo(people);
@@ -72,19 +85,28 @@ public class StreamApiExample01 {
         printGroupsStreamApiPipeline(people);
     }
 
+    /**
+     * Обработка коллекции классическим алгоритмом
+     * @param people
+     */
     public static void printGroupsOriginalAlgo(List<People> people) {
+        // Множество может включать только уникальные элементы
         Set<Group> groups = new HashSet<>();
+        // Заполняем множество group группами
         for (People p:people) {
-            if (p.getAge() >= 18)
+            if (p.getAge() >= 18) // фильтр по возрасту
                 groups.add(p.getGroup());
         }
+        // Список отсортированных групп - создаем из множества groups
         List<Group> sorted = new ArrayList<>(groups);
+        // Сортируем список - количество людей в группе по возрастанию
         Collections.sort(sorted, new Comparator<Group>() {
             @Override
             public int compare(Group o1, Group o2) {
                 return Integer.compare(o1.getSize(), o2.getSize());
             }
         });
+        // Выводим отсортированный список групп
         for (Group g:sorted)
             System.out.println(g.getName());
 
@@ -92,14 +114,15 @@ public class StreamApiExample01 {
 
     public static void printGroupsStreamApi(List<People> people) {
         people.stream()
-                .filter(p -> p.getAge() > 18)
-                .map(p -> p.getGroup())
-                .distinct()
-                .sorted(comparing(g -> g.getSize()))
+                .filter(p -> p.getAge() > 18) // фильтр по возрасту
+                .map(p -> p.getGroup()) // Заполняем множество group группами
+                .distinct() //оставляем только уникальные группы
+                .sorted(comparing(g -> g.getSize())) // Сортируем список групп - количество людей в группе по возрастанию
                 .map(g -> g.getName())
-                .forEach(n -> System.out.println(n));
+                .forEach(n -> System.out.println(n)); // Выводим отсортированный список групп
     }
 
+    // Так, конечно, делать не надо. Это пример раскрытия цепочки команд стрима.
     public static void printGroupsStreamApiPipeline(List<People> people) {
         Stream<People> s1 = people.stream();
         Stream<People> s2 = s1.filter(p -> p.getAge() > 18);
@@ -110,6 +133,7 @@ public class StreamApiExample01 {
         s6.forEach(n -> System.out.println(n));
     }
 
+    // Вспомогательные классы
     static class People {
         private int age;
         private Group group;
@@ -131,6 +155,7 @@ public class StreamApiExample01 {
         }
     }
 
+    // Вспомогательные классы
     static class Group {
         private String name;
         private int size;
